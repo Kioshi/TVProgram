@@ -1,7 +1,7 @@
 package desnej.domov.duchodcu.tvprogram;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -13,6 +13,8 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,23 @@ public class MainActivity extends ActionBarActivity {
         //ArrayAdapter channelsAddapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,channels);
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
+
+        InternetPyco i = new InternetPyco();
+        try {
+            ProgramList pl = i.execute().get();
+            if (pl != null)
+            {
+                List<String> porady = new ArrayList<>();
+                for (Porad porad : pl.porady)
+                    porady.add(porad.nazev);
+                ArrayAdapter poradyAddapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,porady);
+                listShow.setAdapter(poradyAddapter);
+            }
+        }
+        catch (Exception e) {
+        }
+
+
     }
 
 
@@ -56,4 +75,12 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+
+
 }
