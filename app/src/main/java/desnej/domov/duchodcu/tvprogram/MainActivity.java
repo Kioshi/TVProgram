@@ -40,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
         channels.add(new ChannelItem("Prima",R.drawable.prima));
         channels.add(new ChannelItem("Prima Cool",R.drawable.prima_cool));
 
-        //ArrayAdapter channelsAddapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,channels);
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
 
@@ -52,10 +51,10 @@ public class MainActivity extends ActionBarActivity {
 
         try
         {
-            ProgramList pl = i.execute("http://profi-program.com/ex/xml.php?tv=nova&den=2015-04-03&web=hosting.pilsfree.net%2Fqwerty%2F", "nova", "2015-4-03", _database, poradyAddapter).get();
+            i.execute("http://profi-program.com/ex/xml.php?tv=nova&den=2015-04-03&web=hosting.pilsfree.net%2Fqwerty%2F", "nova", "2015-4-03", _database, poradyAddapter);
         } catch (Exception e)
         {
-            Toast.makeText(this, "Nacteni programu selhalo.", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Nacteni programu selhalo.", Toast.LENGTH_LONG).show();
             Log.d(MainActivity.class.getSimpleName(), "Load of XML failed " + e.toString());
         }
 
