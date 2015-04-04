@@ -1,12 +1,15 @@
 package desnej.domov.duchodcu.tvprogram;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +17,18 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
+    private SQLiteDatabase _database;
+    private SQLHelper _dbHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        _dbHelper = new SQLHelper(this, "TVProgramDB", null, 1);
+        _database = _dbHelper.getWritableDatabase();
 
         GridView listChannels = (GridView)findViewById(R.id.listChannels);
         ListView listShow = (ListView)findViewById(R.id.listShows);
@@ -35,19 +44,19 @@ public class MainActivity extends ActionBarActivity {
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
 
-        InternetPyco i = new InternetPyco();
-        try {
-            ProgramList pl = i.execute().get();
-            if (pl != null)
-            {
-                List<String> porady = new ArrayList<>();
-                for (Porad porad : pl.porady)
-                    porady.add(porad.nazev);
-                ArrayAdapter poradyAddapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,porady);
-                listShow.setAdapter(poradyAddapter);
-            }
-        }
-        catch (Exception e) {
+        List<String> porady = new ArrayList<>();
+        ArrayAdapter poradyAddapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, porady);
+        listShow.setAdapter(poradyAddapter);
+
+        DownloadXmlTask i = new DownloadXmlTask();
+
+        try
+        {
+            ProgramList pl = i.execute("http://profi-program.com/ex/xml.php?tv=nova&den=2015-04-03&web=hosting.pilsfree.net%2Fqwerty%2F", "nova", "2015-4-03", _database, poradyAddapter).get();
+        } catch (Exception e)
+        {
+            Toast.makeText(this, "Nacteni programu selhalo.", Toast.LENGTH_LONG);
+            Log.d(MainActivity.class.getSimpleName(), "Load of XML failed " + e.toString());
         }
 
 
@@ -75,12 +84,4 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
 }
