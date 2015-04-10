@@ -2,13 +2,15 @@ package desnej.domov.duchodcu.tvprogram;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,7 +41,13 @@ public class ChannelAdapter extends ArrayAdapter<ChannelItem> {
         textName.setText(item.name);
 
         ImageView logo = (ImageView)convertView.findViewById(R.id.imageLogo);
-        logo.setImageResource(item.logo);
+        Picasso.with(getContext()).load(item.logo).into(logo);
+
+        if ((position+1)%4 < 2)
+            convertView.setBackgroundColor(Color.LTGRAY);
+        else
+            convertView.setBackgroundColor(Color.TRANSPARENT);
+
         return convertView;
     }
 }

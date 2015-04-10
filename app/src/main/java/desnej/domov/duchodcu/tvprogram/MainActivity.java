@@ -1,15 +1,12 @@
 package desnej.domov.duchodcu.tvprogram;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,28 +14,25 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-    private SQLiteDatabase _database;
-    private SQLHelper _dbHelper;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        _dbHelper = new SQLHelper(this, "TVProgramDB", null, 1);
-        _database = _dbHelper.getWritableDatabase();
-
         GridView listChannels = (GridView)findViewById(R.id.listChannels);
         ListView listShow = (ListView)findViewById(R.id.listShows);
 
         List<ChannelItem> channels = new ArrayList<>();
-        channels.add(new ChannelItem("CT 1",R.drawable.ct1));
-        channels.add(new ChannelItem("CT 2",R.drawable.ct2));
-        channels.add(new ChannelItem("Nova",R.drawable.nova));
-        channels.add(new ChannelItem("Prima",R.drawable.prima));
-        channels.add(new ChannelItem("Prima Cool",R.drawable.prima_cool));
+        channels.add(new ChannelItem("CT 1","http://hosting.pilsfree.net/chudy/tv/img/ct1.png"));
+        channels.add(new ChannelItem("CT 2","http://hosting.pilsfree.net/chudy/tv/img/ct2.png"));
+        channels.add(new ChannelItem("CT 4","http://hosting.pilsfree.net/chudy/tv/img/ct4.png"));
+        channels.add(new ChannelItem("CT 24","http://hosting.pilsfree.net/chudy/tv/img/ct24.png"));
+        channels.add(new ChannelItem("Nova","http://hosting.pilsfree.net/chudy/tv/img/nova.png"));
+        channels.add(new ChannelItem("Nova Cinema","http://hosting.pilsfree.net/chudy/tv/img/cinema.png"));
+        channels.add(new ChannelItem("Prima","http://hosting.pilsfree.net/chudy/tv/img/prima.png"));
+        channels.add(new ChannelItem("Prima Cool","http://hosting.pilsfree.net/chudy/tv/img/cool.png"));
+        channels.add(new ChannelItem("Prima Love","http://hosting.pilsfree.net/chudy/tv/img/love.png"));
+        channels.add(new ChannelItem("Prima Zoom","http://hosting.pilsfree.net/chudy/tv/img/zoom.png"));
 
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
@@ -46,19 +40,6 @@ public class MainActivity extends ActionBarActivity {
         List<String> porady = new ArrayList<>();
         ArrayAdapter poradyAddapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, porady);
         listShow.setAdapter(poradyAddapter);
-
-        DownloadXmlTask i = new DownloadXmlTask();
-
-        try
-        {
-            i.execute("http://profi-program.com/ex/xml.php?tv=nova&den=2015-04-03&web=hosting.pilsfree.net%2Fqwerty%2F", "nova", "2015-4-03", _database, poradyAddapter);
-        } catch (Exception e)
-        {
-            Toast.makeText(this, "Nacteni programu selhalo.", Toast.LENGTH_LONG).show();
-            Log.d(MainActivity.class.getSimpleName(), "Load of XML failed " + e.toString());
-        }
-
-
     }
 
 

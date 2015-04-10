@@ -5,8 +5,8 @@ package desnej.domov.duchodcu.tvprogram;
  */
 public class ChannelItem {
     public String name;
-    public int logo;
-    ChannelItem(String name, int logo)
+    public String logo;
+    ChannelItem(String name, String logo)
     {
         this.name = name;
         this.logo = logo;
