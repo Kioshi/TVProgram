@@ -2,14 +2,18 @@ package desnej.domov.duchodcu.tvprogram;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
         GridView listChannels = (GridView)findViewById(R.id.listChannels);
         ListView listShow = (ListView)findViewById(R.id.listShows);
 
-        List<ChannelItem> channels = new ArrayList<>();
+        final List<ChannelItem> channels = new ArrayList<>();
         channels.add(new ChannelItem("CT 1","http://hosting.pilsfree.net/chudy/tv/img/ct1.png"));
         channels.add(new ChannelItem("CT 2","http://hosting.pilsfree.net/chudy/tv/img/ct2.png"));
         channels.add(new ChannelItem("CT 4","http://hosting.pilsfree.net/chudy/tv/img/ct4.png"));
@@ -32,14 +36,34 @@ public class MainActivity extends ActionBarActivity {
         channels.add(new ChannelItem("Prima","http://hosting.pilsfree.net/chudy/tv/img/prima.png"));
         channels.add(new ChannelItem("Prima Cool","http://hosting.pilsfree.net/chudy/tv/img/cool.png"));
         channels.add(new ChannelItem("Prima Love","http://hosting.pilsfree.net/chudy/tv/img/love.png"));
-        channels.add(new ChannelItem("Prima Zoom","http://hosting.pilsfree.net/chudy/tv/img/zoom.png"));
+        //channels.add(new ChannelItem("Prima Zoom","http://hosting.pilsfree.net/chudy/tv/img/zoom.png"));
 
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
 
-        List<String> porady = new ArrayList<>();
-        ArrayAdapter poradyAddapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, porady);
-        listShow.setAdapter(poradyAddapter);
+
+        RestApiClient.get().getGuide("nova", new Callback<ArrayList<GuideItem>>()
+        {
+            @Override
+            public void success(ArrayList<GuideItem> items, Response response)
+            {
+
+                for (GuideItem g : items)
+                {
+                    Log.d("TV", g.nazev);
+                }
+                //mainActivity.products = products;
+                //listAdapter = new ProductAdapter(mainActivity, R.layout.product_list_item, mainActivity.products);
+                //listView.setAdapter(listAdapter);
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+
+            }
+        });
+
     }
 
 

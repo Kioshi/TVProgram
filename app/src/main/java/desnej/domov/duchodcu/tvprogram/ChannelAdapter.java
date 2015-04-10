@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,8 +43,8 @@ public class ChannelAdapter extends ArrayAdapter<ChannelItem> {
 
         ImageView logo = (ImageView)convertView.findViewById(R.id.imageLogo);
         Picasso.with(getContext()).load(item.logo).into(logo);
-
-        if ((position+1)%4 < 2)
+        GridView gv = (GridView) parent;
+        if ((position + 1) % 2 == 0)
             convertView.setBackgroundColor(Color.LTGRAY);
         else
             convertView.setBackgroundColor(Color.TRANSPARENT);
