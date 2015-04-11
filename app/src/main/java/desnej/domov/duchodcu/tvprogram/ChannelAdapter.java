@@ -45,10 +45,11 @@ public class ChannelAdapter extends ArrayAdapter<ChannelItem> {
         Picasso.with(getContext()).load(item.logo).into(logo);
         GridView gv = (GridView) parent;
         if ((position + 1) % 2 == 0)
-            convertView.setBackgroundColor(Color.LTGRAY);
+            convertView.setBackgroundColor(Color.argb(128, 211, 211, 211));
         else
             convertView.setBackgroundColor(Color.TRANSPARENT);
 
         return convertView;
     }
+
 }
