@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,10 +55,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void success(ArrayList<GuideItem> items, Response response)
                     {
-                        List<String> shows = new ArrayList<>();
-                        for (GuideItem g : items)
-                            shows.add(g.nazev);
-                        fillShowsList(shows);
+                        fillShowsList(items);
                     }
 
                     @Override
@@ -77,10 +73,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void success(ArrayList<GuideItem> items, Response response)
             {
-                List<String> shows = new ArrayList<>();
-                for (GuideItem g : items)
-                    shows.add(g.nazev);
-                fillShowsList(shows);
+                fillShowsList(items);
             }
 
             @Override
@@ -91,10 +84,10 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    public void fillShowsList(List<String> shows)
+    public void fillShowsList(ArrayList<GuideItem> shows)
     {
         ListView listShow = (ListView) findViewById(R.id.listShows);
-        ArrayAdapter showsAddapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, shows);
+        ShowsAdapter showsAddapter = new ShowsAdapter(this, R.layout.list_show_item, shows);
         listShow.setAdapter(showsAddapter);
     }
 
