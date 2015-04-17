@@ -9,7 +9,7 @@ public class GuideItem
     public String nazev;
     public String popis;
     public String cas;
-    public long casttime;
+    public long castime;
     public int delka;
     public String kategorie;
     public String televize;

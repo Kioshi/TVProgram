@@ -87,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
     public void fillShowsList(ArrayList<GuideItem> shows)
     {
         ListView listShow = (ListView) findViewById(R.id.listShows);
-        ShowsAdapter showsAddapter = new ShowsAdapter(this, R.layout.list_show_item, shows);
+        ShowsAdapter showsAddapter = new ShowsAdapter(this, R.layout.list_guide_item, shows);
         listShow.setAdapter(showsAddapter);
     }
 
