@@ -6,9 +6,12 @@ package desnej.domov.duchodcu.tvprogram;
 public class ChannelItem {
     public String name;
     public String logo;
-    ChannelItem(String name, String logo)
+    public String hash;
+
+    ChannelItem(String name, String logo, String hash)
     {
         this.name = name;
         this.logo = logo;
+        this.hash = hash;
     }
 }

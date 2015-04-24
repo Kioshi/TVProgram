@@ -56,7 +56,8 @@ public class ShowsAdapter extends ArrayAdapter<GuideItem>
         textDate.setText(textH);
 
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-        progressBar.setProgress((int) (Math.random() * progressBar.getMax()));
+        //progressBar.setProgress((int) (Math.random() * progressBar.getMax()));
+        progressBar.setProgress((int) item.getProgress());
 
         return convertView;
     }

@@ -19,7 +19,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,56 +31,34 @@ public class MainActivity extends ActionBarActivity {
         ListView listShow = (ListView)findViewById(R.id.listShows);
 
         final List<ChannelItem> channels = new ArrayList<>();
-        channels.add(new ChannelItem("CT1", "http://hosting.pilsfree.net/chudy/tv/img/ct1.png"));
-        channels.add(new ChannelItem("CT2", "http://hosting.pilsfree.net/chudy/tv/img/ct2.png"));
-        channels.add(new ChannelItem("CT24", "http://hosting.pilsfree.net/chudy/tv/img/ct24.png"));
-        channels.add(new ChannelItem("Nova","http://hosting.pilsfree.net/chudy/tv/img/nova.png"));
-        channels.add(new ChannelItem("Nova Cinema","http://hosting.pilsfree.net/chudy/tv/img/cinema.png"));
-        channels.add(new ChannelItem("Prima","http://hosting.pilsfree.net/chudy/tv/img/prima.png"));
-        channels.add(new ChannelItem("Prima Cool","http://hosting.pilsfree.net/chudy/tv/img/cool.png"));
-        channels.add(new ChannelItem("Prima Love", "http://hosting.pilsfree.net/chudy/tv/img/love.png"));
-        channels.add(new ChannelItem("Prima Zoom", "http://hosting.pilsfree.net/chudy/tv/img/zoom.png"));
+        channels.add(new ChannelItem("CT1", "http://hosting.pilsfree.net/chudy/tv/img/ct1.png", "CT1"));
+        channels.add(new ChannelItem("CT2", "http://hosting.pilsfree.net/chudy/tv/img/ct2.png", "CT2"));
+        channels.add(new ChannelItem("CT24", "http://hosting.pilsfree.net/chudy/tv/img/ct24.png", "CT24"));
+        channels.add(new ChannelItem("Nova", "http://hosting.pilsfree.net/chudy/tv/img/nova.png", "Nova"));
+        channels.add(new ChannelItem("Nova Cinema", "http://hosting.pilsfree.net/chudy/tv/img/cinema.png", "Nova Cinema"));
+        channels.add(new ChannelItem("Prima", "http://hosting.pilsfree.net/chudy/tv/img/prima.png", "Prima"));
+        channels.add(new ChannelItem("Prima Cool", "http://hosting.pilsfree.net/chudy/tv/img/cool.png", "Prima Cool"));
+        channels.add(new ChannelItem("Prima Love", "http://hosting.pilsfree.net/chudy/tv/img/love.png", "Prima Love"));
+        channels.add(new ChannelItem("Prima Zoom", "http://hosting.pilsfree.net/chudy/tv/img/zoom.png", "Prima Zoom"));
 
         ChannelAdapter channelsAddapter = new ChannelAdapter(this,R.layout.grid_channel_item,channels);
         listChannels.setAdapter(channelsAddapter);
-
         listChannels.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                TextView textName = (TextView) view.findViewById(R.id.textName);
-                Log.i(MainActivity.class.getSimpleName(), textName.getText().toString());
-                RestApiClient.get().getGuide(textName.getText().toString(), new Callback<ArrayList<GuideItem>>()
-                {
-                    @Override
-                    public void success(ArrayList<GuideItem> items, Response response)
-                    {
-                        fillShowsList(items);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error)
-                    {
-
-                    }
-                });
+                Log.d("CLICK CHANNEL", Integer.toString(position));
+                downloadShowsList(view);
             }
         });
 
-
-        RestApiClient.get().getGuide("prima", new Callback<ArrayList<GuideItem>>()
+        listShow.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void success(ArrayList<GuideItem> items, Response response)
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                fillShowsList(items);
-            }
-
-            @Override
-            public void failure(RetrofitError error)
-            {
-
+                Log.d("CLICK SHOW", Integer.toString(position));
             }
         });
     }
@@ -111,5 +90,26 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void downloadShowsList(View view)
+    {
+        TextView textName = (TextView) view.findViewById(R.id.textName);
+        Log.i(MainActivity.class.getSimpleName(), textName.getText().toString());
+        RestApiClient.get().getGuide(textName.getText().toString(), new Callback<ArrayList<GuideItem>>()
+        {
+            @Override
+            public void success(ArrayList<GuideItem> items, Response response)
+            {
+                fillShowsList(items);
+            }
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+
+            }
+        });
+
     }
 }

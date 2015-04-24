@@ -29,7 +29,7 @@ public class RestApiClient
     private static void setupRestClient()
     {
         RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint("http://android.tomasrosa.com/tv/rest_api.php")
+                .setEndpoint("http://hosting.pilsfree.net/qwerty/sandbox/rest/example/index.php")
                 .setClient(new OkClient(new OkHttpClient()))
                 .setLogLevel(RestAdapter.LogLevel.FULL);
 

@@ -12,6 +12,6 @@ import retrofit.http.Path;
 public interface RestApi
 {
 
-    @GET("/get/{station}")
+    @GET("/tv/{station}")
     void getGuide(@Path("station") String station, Callback<ArrayList<GuideItem>> callback);
 }
